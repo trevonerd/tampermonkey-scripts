@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Download from Audionews.org
 // @namespace    https://audionews.org
-// @version      1.0.1
+// @version      1.0.2
 // @description  Download multiple torrents from Audionews.org
 // @author       Marco Trevisani <marco.trevisani81@gmail.com>
 // @match        https://audionews.org/tracker.php
@@ -83,11 +83,13 @@ GM_addStyle('.button-download { float: left; font-size: 11px; margin-right: 10px
     var i = 0, howManyTorrents = 0;
     var prepareDownloads = function(month) {
         $("a[title='Download'").each( function(i) {
-            var releaseDate = $(this).parent().prev().prev().prev().find("a").text();
+            var releaseDate = $(this).parent().prev().prev().prev().find("a").text();            
             if (releaseDate === "") { releaseDate = $(this).parent().prev().prev().prev().text(); }
-
-            var releaseMonth = getMonthFromReleaseDate(releaseDate);
-            if (releaseMonth === month) {
+            var releaseMonth = getMonthFromReleaseDate(releaseDate),
+            $torrentElement = $(this).parent().prev().prev().prev().prev().find("a"),
+            alreadyDownloaded = $torrentElement.hasClass(seedClass) ||  $torrentElement.hasClass(leechClass);
+            
+            if (releaseMonth === month && !alreadyDownloaded) {
                 $(this).addClass("download-now");
             }
         });
