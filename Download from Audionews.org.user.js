@@ -1,13 +1,18 @@
 // ==UserScript==
 // @name         Download from Audionews.org
 // @namespace    https://audionews.org
-// @version      1.0.0
+// @version      1.0.1
 // @description  Download multiple torrents from Audionews.org
 // @author       Marco Trevisani <marco.trevisani81@gmail.com>
 // @match        https://audionews.org/tracker.php
 // @grant        GM_addStyle
 // @require      http://code.jquery.com/jquery-latest.js
 // ==/UserScript==
+
+// OPTIONS
+var downloadDelay = 500,
+    seedClass = "seedmed",
+    leechClass = "leechmed";
 
 // CSS
 GM_addStyle('#buttons-container { width: auto; height: 26px; line-height: 26px; float: right; }');
@@ -101,7 +106,7 @@ GM_addStyle('.button-download { float: left; font-size: 11px; margin-right: 10px
 
         i++;
         if( i < howManyTorrents ){
-            setTimeout( startDownload, 500 );
+            setTimeout( startDownload, downloadDelay );
         }
     }
 
