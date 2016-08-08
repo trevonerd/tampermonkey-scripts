@@ -19,6 +19,7 @@ GM_addStyle('#buttons-container { width: auto; height: 26px; line-height: 26px; 
 GM_addStyle('#buttons-label { float: left; font-size: 12px; margin-right: 10px; font-weight:bold; }');
 GM_addStyle('.button-download { float: left; font-size: 11px; margin-right: 10px; }');
 
+
 (function() {
     'use strict';
 
