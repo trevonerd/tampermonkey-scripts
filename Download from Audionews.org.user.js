@@ -20,11 +20,11 @@ GM_addStyle('#buttons-label { float: left; font-size: 12px; margin-right: 10px; 
 GM_addStyle('.button-download { float: left; font-size: 11px; margin-right: 10px; }');
 
 
-(function() {
+(function () {
     'use strict';
 
     // Private Functions
-    var getCurrentMonthFormatted = function() {
+    var getCurrentMonthFormatted = function () {
         var date = new Date();
         return ("0" + (date.getMonth() + 1)).slice(-2);
     };
@@ -38,8 +38,7 @@ GM_addStyle('.button-download { float: left; font-size: 11px; margin-right: 10px
         return ("0" + (currentMonth)).slice(-2);
     };
 
-    var getMonthFromReleaseDate = function(releaseDate) {
-        var tempReleaseDate = releaseDate;
+    var getMonthFromReleaseDate = function (releaseDate) {
         var releaseDateFirstChar = releaseDate.substring(0, 1);
 
         if (releaseDateFirstChar !== "[") {
@@ -49,7 +48,7 @@ GM_addStyle('.button-download { float: left; font-size: 11px; margin-right: 10px
         }
     };
 
-    var appendButtons = function() {
+    var appendButtons = function () {
         var $buttonsContainer = $("<div>", {
             id: "buttons-container"
         });
@@ -82,14 +81,16 @@ GM_addStyle('.button-download { float: left; font-size: 11px; margin-right: 10px
     };
 
     var i = 0, howManyTorrents = 0;
-    var prepareDownloads = function(month) {
-        $("a[title='Download'").each( function(i) {
-            var releaseDate = $(this).parent().prev().prev().prev().find("a").text();            
-            if (releaseDate === "") { releaseDate = $(this).parent().prev().prev().prev().text(); }
+    var prepareDownloads = function (month) {
+        $("a[title='Download'").each(function (i) {
+            var releaseDate = $(this).parent().prev().prev().prev().find("a").text();
+            if (releaseDate === "") {
+                releaseDate = $(this).parent().prev().prev().prev().text();
+            }
             var releaseMonth = getMonthFromReleaseDate(releaseDate),
-            $torrentElement = $(this).parent().prev().prev().prev().prev().find("a"),
-            alreadyDownloaded = $torrentElement.hasClass(seedClass) ||  $torrentElement.hasClass(leechClass);
-            
+                $torrentElement = $(this).parent().prev().prev().prev().prev().find("a"),
+                alreadyDownloaded = $torrentElement.hasClass(seedClass) || $torrentElement.hasClass(leechClass);
+
             if (releaseMonth === month && !alreadyDownloaded) {
                 $(this).addClass("download-now");
             }
@@ -97,7 +98,9 @@ GM_addStyle('.button-download { float: left; font-size: 11px; margin-right: 10px
 
         howManyTorrents = $(".download-now").length;
 
-        if (howManyTorrents > 0) { startDownload(); }
+        if (howManyTorrents > 0) {
+            startDownload();
+        }
     };
 
     function startDownload() {
@@ -108,21 +111,21 @@ GM_addStyle('.button-download { float: left; font-size: 11px; margin-right: 10px
         console.log("Downloading torrent (" + (i + 1) + "): " + torrentName);
 
         i++;
-        if( i < howManyTorrents ){
-            setTimeout( startDownload, downloadDelay );
+        if (i < howManyTorrents) {
+            setTimeout(startDownload, downloadDelay);
         }
     }
 
-    var initEvents = function() {
-        $("#buttons-container").on("click", ".button-download", function(e) {
+    var initEvents = function () {
+        $("#buttons-container").on("click", ".button-download", function (e) {
             e.preventDefault();
             $("a.download-now").removeClass("download-now");
             prepareDownloads($(this).data("month"));
         });
     };
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         appendButtons();
-        initEvents();  
+        initEvents();
     });
 })();
